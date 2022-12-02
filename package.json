@@ -1,0 +1,40 @@
+{
+  "name": "overtime-counter",
+  "scripts": {
+    "dev": "solid-start dev --port=3333",
+    "build": "solid-start build",
+    "start": "solid-start start"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "autoprefixer": "^10.4.13",
+    "eslint": "8.28.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-only-warn": "^1.0.3",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-solid": "^0.8.0",
+    "tailwindcss": "3.0.24",
+    "solid-start-node": "^0.2.0",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.8"
+  },
+  "dependencies": {
+    "@solidjs/meta": "^0.28.0",
+    "@solidjs/router": "^0.5.0",
+    "solid-js": "^1.6.2",
+    "solid-start": "^0.2.0",
+    "undici": "^5.11.0",
+    "clsx": "^1.2.1",
+    "unplugin-auto-import": "^0.11.5",
+    "unocss": "^0.47.5"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
