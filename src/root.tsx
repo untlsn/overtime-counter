@@ -1,7 +1,6 @@
 // @refresh reload
-import { Suspense } from "solid-js";
+import { Suspense } from 'solid-js';
 import {
-  A,
   Body,
   ErrorBoundary,
   FileRoutes,
@@ -11,8 +10,9 @@ import {
   Routes,
   Scripts,
   Title,
-} from "solid-start";
-import "~/assets/style";
+} from 'solid-start';
+import '~/assets/style';
+import '~/providers/dayjsProvider';
 
 export default function Root() {
   return (
@@ -25,8 +25,6 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <A href="/">Index</A>
-            <A href="/about">About</A>
             <Routes>
               <FileRoutes />
             </Routes>

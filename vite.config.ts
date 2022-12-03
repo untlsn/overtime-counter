@@ -1,9 +1,14 @@
-import solid from "solid-start/vite";
-import { defineConfig } from "vite";
+import solid from 'solid-start/vite';
+import { defineConfig } from 'vite';
 import css from 'unocss/vite';
 import autoImport from 'unplugin-auto-import/vite';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      x: '/src/helpers/x',
+    },
+  },
   plugins: [
     solid(),
     css(),
@@ -12,7 +17,7 @@ export default defineConfig({
       imports: [
         'solid-js',
         {
-          '@tanstack/solid-query': ['createQuery', 'createInfiniteQuery', 'useQueryClient'],
+          'solid-start': ['useParams', 'A'],
           clsx: ['clsx'],
         },
       ],
