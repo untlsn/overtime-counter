@@ -4,13 +4,14 @@ import Times from '~/components/utils/Times';
 interface CalendarPickerProps {
   month: number,
   year: number,
+  selected: number,
+  setSelected(value: number): void
 }
 
 export default function CalendarPicker(props: CalendarPickerProps) {
-  const [selected, setSelected] = createSignal(1);
   const date = () => dayjs().month(props.month - 1).year(props.year).startOf('month');
 
-  const isSelected = createSelector(selected);
+  const isSelected = createSelector(() => props.selected);
 
   return (
     <div class="p-4 w-80 border-1 rounded-lg">
@@ -29,7 +30,7 @@ export default function CalendarPicker(props: CalendarPickerProps) {
               role="radio"
               aria-checked={isSelected(i)}
               type="button"
-              onClick={[setSelected, i]}
+              onClick={[props.setSelected, i]}
               style={i == 1 ? {
                 'grid-column-start': date().weekday() + 1,
               } : undefined}
