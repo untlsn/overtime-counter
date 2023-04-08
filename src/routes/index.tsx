@@ -1,23 +1,52 @@
-import Navigation from '~/components/Navigation';
+import * as bcrypt from 'bcrypt';
+import * as z from 'zod';
+import * as zfd from 'zod-form-data';
+import { getUserByLogin } from '~/dbController/users';
+import { json } from 'solid-start';
+import { storage } from '~/stores/cookieSession';
+
+const loginSchema= zfd.formData({
+	login:    zfd.text(z.string().min(1, 'Field is required')),
+	password: zfd.text(z.string().min(1, 'Field is required')),
+});
 
 export default function Home() {
-	const [count, setCount] = createSignal(0);
+	const [, { Form }] = createServerAction$(async (formData: FormData) => {
+		const parse = loginSchema.safeParse(formData);
+		if (!parse.success) return json({ error: 'Data is invalid' }, {
+			status: 400,
+		});
+
+		const { login, password } = parse.data;
+
+		const user = getUserByLogin(login);
+		if (!user) return json({ error: 'Login is not valid' }, {
+			status: 401,
+		});
+
+		const samePasswords = await bcrypt.compare(password, user.password);
+		if (!samePasswords) return json({ error: 'Password is not valid' }, {
+			status: 401,
+		});
+
+		const session = await storage.getSession();
+		session.set('userId', user.id);
+
+		return json({ data: 'Signed Up' }, {
+			headers: {
+				'Set-Cookie': await storage.commitSession(session),
+			},
+		});
+	});
 
 	return (
-		<main class="font-sans grid place-items-center min-h-screen bg-c-carbon text-white">
-			<article>
-				<img src="/favicon.svg" alt="logo" class="h-50" />
-				<p class="text-center m-4">
-					<button
-						type="button"
-						onClick={() => setCount(count() + 1)}
-						class="bg-white/10 border-(1 #01DD84) rounded-lg p-(x4 y2)"
-					>
-						{count()}
-					</button>
-				</p>
-			</article>
-			<Navigation />
+		<main>
+			<h1>OverTime Counter</h1>
+			<Form>
+				<input name="login" />
+				<input name="password" type="password" />
+				<button type="submit">Submit</button>
+			</Form>
 		</main>
 	);
 }

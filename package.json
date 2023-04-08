@@ -13,6 +13,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.57.1",
 		"@typescript-eslint/parser": "^5.57.1",
 		"autoprefixer": "^10.4.14",
+		"drizzle-kit": "^0.17.4",
 		"esbuild": "^0.17.15",
 		"eslint": "^8.37.0",
 		"eslint-plugin-only-warn": "^1.1.0",
@@ -26,8 +27,7 @@
 		"typescript": "^5.0.3",
 		"unocss": "^0.50.6",
 		"unplugin-auto-import": "^0.15.2",
-		"vite": "^4.2.1",
-		"drizzle-kit": "^0.17.4"
+		"vite": "^4.2.1"
 	},
 	"dependencies": {
 		"@solidjs/meta": "^0.28.4",
@@ -43,7 +43,8 @@
 		"solid-js": "^1.7.2",
 		"solid-start": "^0.2.26",
 		"undici": "^5.21.0",
-		"zod": "^3.21.4"
+		"zod": "^3.21.4",
+		"zod-form-data": "^2.0.1"
 	},
 	"engines": {
 		"node": ">=16.8"
