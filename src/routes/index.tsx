@@ -1,47 +1,28 @@
-import * as bcrypt from 'bcrypt';
-import * as z from 'zod';
-import * as zfd from 'zod-form-data';
-import { getUserByLogin } from '~/dbController/users';
-import { json } from 'solid-start';
-import { storage } from '~/stores/cookieSession';
+import auth$ from '~/api/auth';
+import login$ from '~/api/login';
+import logout$ from '~/api/logout';
 
-const loginSchema= zfd.formData({
-	login:    zfd.text(z.string().min(1, 'Field is required')),
-	password: zfd.text(z.string().min(1, 'Field is required')),
-});
+export const routeData = () => {
+	const authInvalidate = { invalidate: ['auth'] };
+	const [, { Form }] = createServerAction$(login$, authInvalidate);
+	const auth = createServerData$(auth$, { key: ['auth'] });
+	const [, { Form: LogoutForm }] = createServerAction$(logout$, authInvalidate);
+
+	return { auth, Form, LogoutForm };
+};
 
 export default function Home() {
-	const [, { Form }] = createServerAction$(async (formData: FormData) => {
-		const parse = loginSchema.safeParse(formData);
-		if (!parse.success) return json({ error: 'Data is invalid' }, {
-			status: 400,
-		});
-
-		const { login, password } = parse.data;
-
-		const user = getUserByLogin(login);
-		if (!user) return json({ error: 'Login is not valid' }, {
-			status: 401,
-		});
-
-		const samePasswords = await bcrypt.compare(password, user.password);
-		if (!samePasswords) return json({ error: 'Password is not valid' }, {
-			status: 401,
-		});
-
-		const session = await storage.getSession();
-		session.set('userId', user.id);
-
-		return json({ data: 'Signed Up' }, {
-			headers: {
-				'Set-Cookie': await storage.commitSession(session),
-			},
-		});
-	});
+	const { auth, Form, LogoutForm } = useRouteData<typeof routeData>();
 
 	return (
-		<main>
+		<main class="m-8 space-y-4">
 			<h1>OverTime Counter</h1>
+			<p>{auth()?.isLogged ? 'Logged' : 'Not logged'}</p>
+			<Show when={auth()?.isLogged}>
+				<LogoutForm>
+					<button class="border-2 p-(x4 y2) rounded-lg" type="submit">Logout</button>
+				</LogoutForm>
+			</Show>
 			<Form>
 				<input name="login" />
 				<input name="password" type="password" />
