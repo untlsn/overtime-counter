@@ -1,6 +1,6 @@
 import { storage } from '~/stores/cookieSession';
 
-const logout$ = async (_data: FormData, { request: req }) => {
+export const useLogout$ = () => createServerAction$(async (_data: FormData, { request: req }) => {
 	const session = await storage.getSession(req.headers.get('Cookie'));
 
 	return new Response('Logout success!', {
@@ -8,6 +8,5 @@ const logout$ = async (_data: FormData, { request: req }) => {
 			'Set-Cookie': await storage.destroySession(session),
 		},
 	});
-};
-
-export default logout$;
+}, { invalidate: ['auth'] });
+export const useLogoutForm$ = () => useLogout$()[1].Form;

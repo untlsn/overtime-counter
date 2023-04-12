@@ -1,18 +1,15 @@
-import auth$ from '~/api/auth';
-import login$ from '~/api/login';
-import logout$ from '~/api/logout';
+import { useAuth$ } from '~/api/auth';
+import { useLoginForm$ } from '~/api/login';
+import { useLogoutForm$ } from '~/api/logout';
 
-export const routeData = () => {
-	const authInvalidate = { invalidate: ['auth'] };
-	const [, { Form }] = createServerAction$(login$, authInvalidate);
-	const auth = createServerData$(auth$, { key: ['auth'] });
-	const [, { Form: LogoutForm }] = createServerAction$(logout$, authInvalidate);
-
-	return { auth, Form, LogoutForm };
-};
+export const routeData = () => ({
+	auth:       useAuth$(),
+	LoginForm:  useLoginForm$(),
+	LogoutForm: useLogoutForm$(),
+});
 
 export default function Home() {
-	const { auth, Form, LogoutForm } = useRouteData<typeof routeData>();
+	const { auth, LoginForm, LogoutForm } = useRouteData<typeof routeData>();
 
 	return (
 		<main class="m-8 space-y-4">
@@ -23,11 +20,11 @@ export default function Home() {
 					<button class="border-2 p-(x4 y2) rounded-lg" type="submit">Logout</button>
 				</LogoutForm>
 			</Show>
-			<Form>
+			<LoginForm>
 				<input name="login" />
 				<input name="password" type="password" />
 				<button type="submit">Submit</button>
-			</Form>
+			</LoginForm>
 		</main>
 	);
 }

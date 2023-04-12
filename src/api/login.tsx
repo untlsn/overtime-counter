@@ -1,4 +1,4 @@
-import { json } from 'solid-start';
+import { json, redirect } from 'solid-start';
 import { getUserByLogin } from '~/dbController/users';
 import * as bcrypt from 'bcrypt';
 import { storage } from '~/stores/cookieSession';
@@ -10,7 +10,7 @@ const loginSchema= zfd.formData({
 	password: zfd.text(z.string().min(1, 'Field is required')),
 });
 
-const login$ = async (formData: FormData) => {
+export const useLogin$ = () => createServerAction$(async (formData: FormData) => {
 	const parse = loginSchema.safeParse(formData);
 	if (!parse.success) return json({ error: 'Data is invalid' }, {
 		status: 400,
@@ -31,11 +31,10 @@ const login$ = async (formData: FormData) => {
 	const session = await storage.getSession();
 	session.set('userId', user.id);
 
-	return json({ data: 'Signed Up' }, {
+	return redirect('/', {
 		headers: {
 			'Set-Cookie': await storage.commitSession(session),
 		},
 	});
-};
-
-export default login$;
+}, { invalidate: ['auth'] });
+export const useLoginForm$ = () => useLogin$()[1].Form;

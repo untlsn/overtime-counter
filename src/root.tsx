@@ -13,6 +13,7 @@ import {
 	Link,
 } from 'solid-start';
 import '~/assets/style';
+import Header from '~/components/Header';
 
 export default function Root() {
 	return (
@@ -26,6 +27,7 @@ export default function Root() {
 			<Body>
 				<Suspense>
 					<ErrorBoundary>
+						<Header />
 						<Routes>
 							<FileRoutes />
 						</Routes>

@@ -1,9 +1,10 @@
-import { json } from 'solid-start';
+import { json, redirect } from 'solid-start';
 import { createUser, getUserByLogin } from '~/dbController/users';
 import * as bcrypt from 'bcrypt';
 import { storage } from '~/stores/cookieSession';
 import * as zfd from 'zod-form-data';
 import * as z from 'zod';
+import LabeledInput from '~/components/LabeledInput';
 
 const registerSchema= zfd.formData({
 	login:             zfd.text(z.string().min(1, 'Field is required')),
@@ -12,7 +13,7 @@ const registerSchema= zfd.formData({
 });
 
 export default function Register() {
-	const [, { Form }] = createServerAction$(async (formData: FormData) => {
+	const [, { Form: RegisterForm }] = createServerAction$(async (formData: FormData) => {
 		const parse = registerSchema.safeParse(formData);
 		if (!parse.success) return json({ error: 'Data in invalid' }, {
 			status: 400,
@@ -34,7 +35,7 @@ export default function Register() {
 		const session = await storage.getSession();
 		session.set('userId', newUser.id);
 
-		return json({ data: 'Signed Up' }, {
+		return redirect('/', {
 			headers: {
 				'Set-Cookie': await storage.commitSession(session),
 			},
@@ -44,12 +45,12 @@ export default function Register() {
 	return (
 		<main>
 			<h1>OverTime Counter</h1>
-			<Form class="space-x-2">
-				<input class="border-1" name="login" />
-				<input class="border-1" name="password" type="password" />
-				<input class="border-1" name="repeat-password" type="password" />
+			<RegisterForm class="grid gap-4 w-100 m-(x-auto y-20)">
+				<LabeledInput name="login" label="Login" />
+				<LabeledInput name="password" label="Password" />
+				<LabeledInput name="repeat-password" label="Repeat password" />
 				<button type="submit">Submit</button>
-			</Form>
+			</RegisterForm>
 		</main>
 	);
 }

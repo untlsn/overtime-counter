@@ -1,6 +1,6 @@
 import { storage } from '~/stores/cookieSession';
 
-const auth$ = async (_key, { request: req }) => {
+export const useAuth$ = () => createServerData$(async (_key, { request: req }) => {
 	const session = await storage.getSession(req.headers.get('Cookie'));
 	const userId = session.get('userId');
 	if (!userId) return { isLogged: false };
@@ -9,6 +9,4 @@ const auth$ = async (_key, { request: req }) => {
 		isLogged: true,
 		userId:   +userId,
 	};
-};
-
-export default auth$;
+}, { key: ['auth'] });
