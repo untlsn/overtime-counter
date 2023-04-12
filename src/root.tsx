@@ -13,7 +13,7 @@ import {
 	Link,
 } from 'solid-start';
 import '~/assets/style';
-import Header from '~/components/Header';
+import Header from '~/features/root/components/Header';
 
 export default function Root() {
 	return (
