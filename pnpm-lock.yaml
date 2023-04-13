@@ -7,6 +7,9 @@ dependencies:
   '@solidjs/router':
     specifier: ^0.8.2
     version: 0.8.2(solid-js@1.7.2)
+  '@types/better-sqlite3':
+    specifier: ^7.6.4
+    version: 7.6.4
   aws-sdk:
     specifier: ^2.1351.0
     version: 2.1351.0
@@ -21,7 +24,7 @@ dependencies:
     version: 1.2.1
   drizzle-orm:
     specifier: ^0.23.8
-    version: 0.23.8(better-sqlite3@8.2.0)
+    version: 0.23.8(@types/better-sqlite3@7.6.4)(better-sqlite3@8.2.0)
   mock-aws-s3:
     specifier: ^4.0.2
     version: 4.0.2
@@ -1895,6 +1898,12 @@ packages:
       '@types/node': 18.15.11
     dev: true
 
+  /@types/better-sqlite3@7.6.4:
+    resolution: {integrity: sha512-dzrRZCYPXIXfSR1/surNbJ/grU3scTaygS0OMzjlGf71i9sc2fGyHPXXiXmEvNIoE0cGwsanEFMVJxPXmco9Eg==}
+    dependencies:
+      '@types/node': 18.15.11
+    dev: false
+
   /@types/cookie@0.5.1:
     resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
 
@@ -2957,7 +2966,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.23.8(better-sqlite3@8.2.0):
+  /drizzle-orm@0.23.8(@types/better-sqlite3@7.6.4)(better-sqlite3@8.2.0):
     resolution: {integrity: sha512-jdqS8+aiYWGI5ub4rhc2dEVqCeuYGF78m3XCVYVLaI2UzsKfhp/l3pretOsRMrzOSOM6naTB1BJugMY70VLv/w==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -3013,6 +3022,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
+      '@types/better-sqlite3': 7.6.4
       better-sqlite3: 8.2.0
     dev: false
 

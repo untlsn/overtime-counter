@@ -13,4 +13,4 @@ const getUserByLoginQuery = db.select().from(usersTable)
 
 export const getUserByLogin = (login: string): User | undefined => getUserByLoginQuery.get({ login });
 
-export const createUser = (data: UserInset): User => db.insert(usersTable).values(data).run();
+export const createUser = (data: UserInset) => db.insert(usersTable).values(data).run();
